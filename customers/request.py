@@ -3,7 +3,7 @@ CUSTOMERS = [
       "id": 15,
       "name": "Ryan Tanay",
       "email": "ryan@tanay.com",
-      "employee": false
+      
     },
     {
       "id": 16,
@@ -27,7 +27,7 @@ CUSTOMERS = [
       "id": 19,
       "name": "Fletcher Bangs",
       "email": "flangs@bangs.com",
-      "employee": false
+     
     },
     {
       "id": 20,
