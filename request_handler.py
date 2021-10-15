@@ -1,6 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from animals import get_all_animals, get_single_animal
 from locations import get_all_locations, get_single_location
+from customers import get_all_customers, get_single_customer
 
 
 # Here's a class. It inherits from another class.
@@ -70,6 +71,22 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             else:
                 response = f"{get_all_locations()}"
+
+        self.wfile.write(response.encode())
+   
+    def do_GET(self):
+        self._set_headers(200)
+        response = {}  # Default response
+
+        # Parse the URL and capture the tuple that is returned
+        (resource, id) = self.parse_url(self.path)
+
+        if resource == "customers":
+            if id is not None:
+                response = f"{get_single_customer(id)}"
+
+            else:
+                response = f"{get_all_customers()}"
 
         self.wfile.write(response.encode())
 
