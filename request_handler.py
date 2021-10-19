@@ -29,7 +29,29 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
 
+        def parse_url(self, path):
+            # Just like splitting a string in JavaScript. If the
+            # path is "/animals/1", the resulting list will
+            # have "" at index 0, "animals" at index 1, and "1"
+            # at index 2.
+            path_params = path.split("/")
+            resource = path_params[1]
+            id = None
+
+        # Try to get the item at index 2
+            try:
+                # Convert the string "1" to the integer 1
+                # This is the new parseInt()
+                id = int(path_params[2])
+            except IndexError:
+                pass  # No route parameter exists: /animals
+            except ValueError:
+                pass  # Request had trailing slash: /animals/
+
+            return (resource, id)  # This is a tuple
+
     # Another method! This supports requests with the OPTIONS verb.
+
     def do_OPTIONS(self):
         """Sets the options headers
         """
@@ -58,7 +80,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 response = f"{get_all_animals()}"
 
         self.wfile.write(response.encode())
-    
+
     def do_GET(self):
         self._set_headers(200)
         response = {}  # Default response
@@ -74,7 +96,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 response = f"{get_all_locations()}"
 
         self.wfile.write(response.encode())
-   
+
     def do_GET(self):
         self._set_headers(200)
         response = {}  # Default response
@@ -90,7 +112,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                 response = f"{get_all_customers()}"
 
         self.wfile.write(response.encode())
-    
+
     def do_GET(self):
         self._set_headers(200)
         response = {}  # Default response
@@ -142,24 +164,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    def parse_url(self, path):
-            # Just like splitting a string in JavaScript. If the
-            # path is "/animals/1", the resulting list will
-            # have "" at index 0, "animals" at index 1, and "1"
-            # at index 2.
-            path_params = path.split("/")
-            resource = path_params[1]
-            id = None
-
-        # Try to get the item at index 2
-            try:
-            # Convert the string "1" to the integer 1
-            # This is the new parseInt()
-                id = int(path_params[2])
-            except IndexError:
-                pass  # No route parameter exists: /animals
-            except ValueError:
-                    pass  # Request had trailing slash: /animals/
-
-            return (resource, id)  # This is a tuple
